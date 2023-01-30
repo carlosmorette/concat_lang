@@ -1,6 +1,10 @@
 # ConcatLang
 
-**TODO: Add description**
+Linguagem que concatena strings.
+```ex
+iex(1)> ConcatLang.run("\"Parsers\" $$ \" são \" $$ \"irados\"")
+"Parsers são irados"
+```
 
 ## Installation
 
