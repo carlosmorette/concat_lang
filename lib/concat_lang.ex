@@ -54,9 +54,9 @@ defmodule ConcatLang do
   end
 
   def parse_program(tokens) do
-    {tokens, first_str} = expect_and_get(tokens, :STRING)
-    tokens = expect(tokens, :CONCAT_SYMBOL)
-    {tokens, second_str} = expect_and_get(tokens, :STRING)
+    {tokens, first_str} = expect_and_get!(tokens, :STRING)
+    tokens = expect!(tokens, :CONCAT_SYMBOL)
+    {tokens, second_str} = expect_and_get!(tokens, :STRING)
     result = first_str <> second_str
 
     do_parse_expression(tokens, result)
@@ -64,8 +64,8 @@ defmodule ConcatLang do
 
   def do_parse_expression(tokens, left) do
     if match(tokens, :CONCAT_SYMBOL) do
-      tokens = expect(tokens, :CONCAT_SYMBOL)
-      {tokens, second_str} = expect_and_get(tokens, :STRING)
+      tokens = expect!(tokens, :CONCAT_SYMBOL)
+      {tokens, second_str} = expect_and_get!(tokens, :STRING)
       result = left <> second_str
 
       do_parse_expression(tokens, result)
@@ -74,10 +74,10 @@ defmodule ConcatLang do
     end
   end
 
-  def expect([%{id: expected_id} | rest_tokens], expected_id),
+  def expect!([%{id: expected_id} | rest_tokens], expected_id),
     do: rest_tokens
 
-  def expect_and_get([%{id: expected_id, value: value} | rest_tokens], expected_id),
+  def expect_and_get!([%{id: expected_id, value: value} | rest_tokens], expected_id),
     do: {rest_tokens, value}
 
   def clean_str(str), do: String.replace(str, ~r/[\"]/, "")
